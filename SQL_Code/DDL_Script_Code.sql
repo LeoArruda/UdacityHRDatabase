@@ -20,7 +20,6 @@ CREATE TABLE IF NOT EXISTS Employee(
     CONSTRAINT fk_employee_edu_id_education FOREIGN KEY (edu_id) REFERENCES Education(edu_id)
 );
 
-
 /* Creating Location table - primary key -> loc_id */
 CREATE TABLE IF NOT EXISTS Location(
     loc_id SERIAL,
@@ -52,7 +51,7 @@ CREATE TABLE IF NOT EXISTS Address(
     addr_nm  varchar(100),
     city_id INT,
     CONSTRAINT pk_address_addr_id PRIMARY KEY (addr_id),
-    CONSTRAINT fk_address_city_id_state FOREIGN KEY (city_id) REFERENCES City(city_id)
+    CONSTRAINT fk_address_city_id_city FOREIGN KEY (city_id) REFERENCES City(city_id)
 );
 
 /* Creating JobPosition table - primary key -> job_id */

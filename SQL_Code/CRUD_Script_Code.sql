@@ -1,7 +1,7 @@
 /* Question 1: Return a list of employees WITH Job Titles AND Department Names */
-SELECT emp.emp_nm,
-         job.job_title,
-         dep.dep_nm
+SELECT emp.emp_nm AS "Employee Name",
+         job.job_title AS "Job Title",
+         dep.dep_nm AS "Department"
 FROM EmployeeHistory AS es
 JOIN Employee AS emp
     ON es.emp_id = emp.emp_id
@@ -11,23 +11,19 @@ JOIN Department AS dep
     ON es.dep_id = dep.dep_id; 
 
 /* Question 2: INSERT Web Programmer AS a new job title */
-
 INSERT INTO JobPosition (job_title) VALUES ('Web Programmer');
 
 /* Question 3: Correct the job title FROM web programmer to web developer */ 
-
 UPDATE JobPosition SET job_title = 'Web Developer'
 WHERE job_title = 'Web Programmer';
 
 /* Question 4: Delete the job title Web Developer from the database */
-
 DELETE
 FROM JobPosition
 WHERE job_title = 'Web Developer';
     
     
 /* Question 5: How many employees are in each department? */
-
 SELECT dep.dep_nm as "Department",
        count(emp.emp_nm) as "# Employees"
 FROM EmployeeHistory AS eh
@@ -38,11 +34,9 @@ JOIN Department AS dep
 GROUP BY dep.dep_nm
 ORDER BY 2;
 
-
 /* Question 6: Write a query that returns current and past jobs (include 
    employee name, job title, department, manager name, start and end date 
    for position) for employee Toni Lembeck. */
-   
 SELECT emp.emp_nm as "Name",
        job.job_title as "Job Title",
        dep.dep_nm as "Department",
