@@ -8,7 +8,8 @@ JOIN Employee AS emp
 JOIN JobPosition AS job
     ON es.job_id = job.job_id
 JOIN Department AS dep
-    ON es.dep_id = dep.dep_id; 
+    ON es.dep_id = dep.dep_id
+ORDER BY dep.dep_nm, job.job_title; 
 
 /* Question 2: INSERT Web Programmer AS a new job title */
 INSERT INTO JobPosition (job_title) VALUES ('Web Programmer');
@@ -32,7 +33,7 @@ JOIN Employee AS emp
 JOIN Department AS dep
     ON eh.dep_id = dep.dep_id
 GROUP BY dep.dep_nm
-ORDER BY 2;
+ORDER BY 2 DESC;
 
 /* Question 6: Write a query that returns current and past jobs (include 
    employee name, job title, department, manager name, start and end date 

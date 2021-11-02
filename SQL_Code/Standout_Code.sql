@@ -45,43 +45,19 @@ JOIN Location AS loc
 /* Standout Suggestion 2
     Create a stored procedure with parameters that returns current and past jobs 
     (include employee name, job title, department, manager name, start and end date for position) 
-    when given an employee name.
+    when given an employee name. for employee Toni Lembeck.
 */
 
-create or replace procedure GetAllJobs(employeeName varchar(50))
-language plpgsql
-as $$
-begin
-    SELECT emp.emp_nm as "Employee",
-       job.job_title as "JobTitle",
-       dep.dep_nm as "Department",
-        (SELECT emp_nm
-        FROM Employee
-        WHERE emp_id = eh.manager_id) as "Manager",
-       eh.start_dt as "StartDate", 
-       eh.end_dt as "EndDate"
-    FROM EmployeeHistory AS eh
-    JOIN Employee AS emp
-        ON eh.emp_id = emp.emp_id
-    JOIN JobPosition AS job
-        ON eh.job_id = job.job_id
-    JOIN Department AS dep
-        ON eh.dep_id = dep.dep_id
-    WHERE emp.emp_nm = employeeName;
-end
-$procedure$;
-
-
-create function GetAllJobs
-(employeeName varchar(50))
+create or replace function GetAllJobs
+(in _empName character varying)
 RETURNS TABLE ( 
-    Employee varchar(50), 
-    Department varchar(50),
-    Manager varchar(50),
-    StartDate date,
-    EndDate date
+     Employee character varying, 
+     Job_Title character varying,
+     Department character varying,
+     Manager character varying,
+     StartDate date,
+     EndDate date
 )
-language sql
 as $$
     SELECT emp.emp_nm as Employee,
        job.job_title as Job_Title,
@@ -98,25 +74,16 @@ as $$
         ON eh.job_id = job.job_id
     JOIN Department AS dep
         ON eh.dep_id = dep.dep_id
-    WHERE emp.emp_nm = employeeName;
-$$;
-
-
-CREATE OR REPLACE FUNCTION GetEmployeeJobAge(empID varchar(10), jobAge OUT varchar(100))
-LANGUAGE plpgsql
-AS $$
-BEGIN
-    SELECT AGE(NOW()::Date, hire_dt) INTO jobAge 
-    FROM Employee 
-    WHERE emp_id = empID;
-END;
+    WHERE emp.emp_nm = _empName;
+    
 $$
+LANGUAGE SQL;
+
 
 /* Standout Suggestion 3
     Implement user security on the restricted salary attribute.
     Create a non-management user named NoMgr. 
 */
-
 CREATE ROLE noManager;
 GRANT CONNECT ON DATABASE postgres TO noManager;
 GRANT SELECT ON ALL TABLES IN SCHEMA Public to noManager;
